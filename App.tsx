@@ -1,45 +1,45 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import { Pressable, StyleSheet, Text } from 'react-native';
+import { PlatformPressable } from '@react-navigation/elements';
+import { NavigationContainer } from '@react-navigation/native';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+export default function App() {
+  function onParentPress() {
+    console.log('parent press');
+  }
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  function onChildPress() {
+    console.log('child press');
+  }
 
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
+    <NavigationContainer>
+      <Pressable onPress={onParentPress} style={styles.container}>
+        <PlatformPressable
+          onPress={onChildPress}
+          style={styles.button}
+          disabled={true}>
+          <Text style={{ fontSize: 24 }}>Platform Pressable</Text>
+        </PlatformPressable>
+        <Pressable onPress={onChildPress} style={styles.button} disabled={true}>
+          <Text style={{ fontSize: 24 }}>Native Pressable</Text>
+        </Pressable>
+      </Pressable>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    rowGap: 20,
+    backgroundColor: '#ecf0f1',
+    padding: 8,
+  },
+  button: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'green',
   },
 });
-
-export default App;
